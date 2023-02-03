@@ -20,7 +20,7 @@ namespace ReadMccsLog
         static void Main(string[] args)
         {
 
-            if(StartWatchDog() == true) return; //이미 실행되고 있으면 아웃
+            StartWatchDog();
             GetMccsFileName();
             Database.CreateDatabase();
                    
@@ -40,30 +40,27 @@ namespace ReadMccsLog
             }
         }
 
-        static private bool StartWatchDog()
+        static private void StartWatchDog()
         {
-            // Process.Start("WatchDog.exe");
+            //Process.Start("WatchDog.exe");
 
             Process[] processes = Process.GetProcessesByName("WatchDog");
             int count = processes.Count();
 
-            if (count < 1)
-            {
-                ProcessStartInfo psi = new ProcessStartInfo("WatchDog.exe")
-                {
-                    CreateNoWindow = true,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true
-                };
-                Process process = Process.Start(psi);
+            if (processes.Count() > 0) processes[0].Kill();
 
-                return false;
-            }
-            else
+
+
+            ProcessStartInfo psi = new ProcessStartInfo("WatchDog.exe")
             {
-                return true;
-            }
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                RedirectStandardOutput = true
+            };
+            Process process = Process.Start(psi);
+
+
         }
 
 

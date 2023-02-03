@@ -16,16 +16,33 @@ namespace WatchDog
         {
             while (true)
             {
-                Process[] processes = Process.GetProcessesByName("ReadMccsLog");
+                //Process[] processes = Process.GetProcessesByName("ReadMccsLog");
 
+                //int count = processes.Count();
+
+                //if (count < 1)
+                //{
+                //    Process.Start("ReadMccsLog.exe");
+                //}
+
+
+                Process[] processes = Process.GetProcessesByName("ReadMccsLog");
                 int count = processes.Count();
 
                 if (count < 1)
                 {
-                    Process.Start("ReadMccsLog.exe");
-                }
+                    ProcessStartInfo psi = new ProcessStartInfo("ReadMccsLog.exe")
+                    {
+                        CreateNoWindow = false,
+                        WindowStyle = ProcessWindowStyle.Normal,
+                        UseShellExecute = true,
+                        RedirectStandardOutput = false
+                    };
 
-                Thread.Sleep(1000*30);
+                    Process.Start(psi);
+                }              
+
+                Thread.Sleep(1000*10);
             }
         }
     }
